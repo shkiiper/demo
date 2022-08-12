@@ -1,0 +1,24 @@
+version: '3.7'
+services:
+  postgres-demo:
+    container_name: postgres-demo
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: carwash
+  demo:
+    container_name: demo
+    image: demo
+    ports:
+      - 8060:8060
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-demo:5432/carwash
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSOWRD: password
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres-demo
